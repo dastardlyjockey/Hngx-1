@@ -5,6 +5,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
 	"log"
+	"math/rand"
 	"net/http"
 	"time"
 )
@@ -27,7 +28,11 @@ func getSlack(w http.ResponseWriter, r *http.Request) {
 	slack.SlackName = slackName
 	slack.Track = track
 	slack.CurrentDay = time.Now().UTC().Format("Monday")
-	slack.UtcTime = time.Now().UTC().Format("2023-08-21T15:04:05Z")
+
+	currentTime := time.Now().UTC()
+	currentTime = currentTime.Add(time.Duration(rand.Intn(5)-2) * time.Minute)
+	slack.UtcTime = currentTime.Format("2006-01-02T15:04:05Z")
+
 	slack.GithubFileUrl = "https://github.com/dastardlyjockey/Hngx-1/main.go"
 	slack.GithubRepoUrl = "https://github.com/dastardlyjockey/Hngx-1"
 	slack.StatusCode = 200
